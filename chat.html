@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.0/socket.io.js"></script>
+</head>
+<body style="text-align: center">
+    <h1>Chat Ekranı</h1>
+    <h4></h4>
+    <ul></ul>
+    <div>
+        <label>Mesaj</label>
+        <input type="text" id="msg" maxlength="50"/>
+        <button>Gönder</button>
+    </div>
+
+</body>
+</html>
+<script>
+var username = localStorage.getItem("username");
+$("h1").html("Hoşgeldin " + username);
+
+var socket = io.connect('http://10.4.26.28:3000');
+
+$("button").click(function(){
+
+    var mesaj = new Object();
+    mesaj.user = username;
+    mesaj.content = $("#msg").val();
+    mesaj.date = Date();
+    if(mesaj.content.length < 50){
+        socket.emit('servermsg',mesaj);
+    }
+});
+
+socket.on('clientmsg',function(data){
+    var x = $("ul").children().length;
+    if(x == 5 || x > 5){
+        $('ul li:first').remove();
+    }
+    $("ul").append("<li>"+ data.user + data.content + data.date + "</li>")
+});
+
+socket.on('banfunc',function(){
+    $("body").css("background-color","red");
+})
+
+</script>
+
