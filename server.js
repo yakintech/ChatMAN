@@ -9,8 +9,8 @@ var io = require('socket.io')(server);
     res.sendfile(__dirname + '/chat.html');
   });
 
-  server.listen(3000, function(){
-    console.log('listening on *:3000');
+  server.listen(3001, function(){
+    console.log('listening on *:3001');
   });
 
 
