@@ -23,6 +23,15 @@
 
 </body>
 </html>
+
+<script>
+$.getJSON("http://localhost:3000/chatmessages",function(data){
+    $.each(data,function(key,item){
+        $("ul").append("<li>" + item.message + " " + item.adddate + "</li>")
+    })
+})
+</script>
+
 <script>
 var username = localStorage.getItem("username");
 $("h1").html("Hoşgeldin " + username);
